@@ -70,24 +70,31 @@
       return;
     }
 
-    var messagesContainer = document.getElementById('messages');
-    var newMessage = document.createElement('li');
-    newMessage.className = 'message user-message';
-    newMessage.textContent = messageText;
+    var messages = JSON.parse(localStorage.getItem('messages')) || [];
+    messages.push({ sender: 'user', text: messageText });
+    localStorage.setItem('messages', JSON.stringify(messages));
 
-    messagesContainer.appendChild(newMessage);
-
-    // Simulate receiving a response after a short delay
-    setTimeout(function() {
-      var response = document.createElement('li');
-      response.className = 'message other-message';
-      response.textContent = 'This is a response from the other user.';
-      messagesContainer.appendChild(response);
-    }, 500);
-
-    // Clear the input field after sending the message
+    displayMessages();
     messageInput.value = '';
   }
+
+  function displayMessages() {
+    var messagesContainer = document.getElementById('messages');
+    var messages = JSON.parse(localStorage.getItem('messages')) || [];
+
+    messagesContainer.innerHTML = '';
+    messages.forEach(function(message) {
+      var messageElement = document.createElement('li');
+      messageElement.className = 'message ' + message.sender + '-message';
+      messageElement.textContent = message.text;
+      messagesContainer.appendChild(messageElement);
+    });
+  }
+
+  // Display messages when the page loads
+  window.onload = function() {
+    displayMessages();
+  };
 </script>
 
 </body>
