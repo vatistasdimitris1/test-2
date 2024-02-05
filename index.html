@@ -75,6 +75,29 @@
 </div>
 
 <script>
+  function getRandomNickname() {
+    const nicknames = [
+      "TurboTurtle", "SizzleSprite", "QuasarQuokka", "CyborgChameleon", "VelvetVampire",
+      "NovaNomad", "PrismPenguin", "ThunderThief", "GalacticGazelle", "QuantumQuokka",
+      "NebulaNomad", "StealthyStrawberry", "PixelPenguin", "SonicSphinx", "NebulaNomad",
+      "CyberCheetah", "BlazeBumblebee", "LunarLiger", "PlasmaPuffin", "ElectricElephant",
+      "ZenithZombie", "PolkaDotPirate", "AquaAlchemist", "GadgetGiraffe", "EmberEagle",
+      "JazzyJester", "TechnoToucan", "LunarLynx", "QuasarQuail", "SlinkySloth",
+      "QuantumQuill", "VelvetViper", "GlitterGorilla", "NeonNoodle", "ThunderTiger",
+      "SolarSparrow", "CosmicCactus", "PixelPenguin", "NimbusNarwhal", "QuantumQuokka",
+      "MysticMongoose", "ElectricEchidna", "CyberChinchilla", "GigaGecko", "TurboTarantula",
+      "BlazeBeetle", "VelvetVulture", "NebulaNewt", "SonicStarfish", "SolarSalamander",
+      "ZenithZebra", "JazzyJackal", "PixelPangolin", "ThunderToad", "QuantumQuesadilla",
+      "NimbusNuthatch", "CyberCobra", "BlazeBaboon", "MysticMantis", "SolarSphinx",
+      "QuantumQuokka", "VelvetVixen", "NeonNarwhal", "ElectricElk", "GigaGazelle",
+      "TurboTermite", "LunarLobster", "SonicSnail", "CosmicCentaur", "BlazeBison",
+      "PrismPangolin", "VelvetVampire", "QuantumQuasar", "SolarSorcerer", "PixelPenguin",
+      "ThunderThief", "MysticMuffin", "QuantumQuokka", "NebulaNomad", "CyberCheetah"
+    ];
+
+    return nicknames[Math.floor(Math.random() * nicknames.length)];
+  }
+
   function sendMessage() {
     var messageInput = document.getElementById('message-input');
     var messageText = messageInput.value.trim();
@@ -83,8 +106,10 @@
       return;
     }
 
+    var nickname = getRandomNickname();
+
     var messages = JSON.parse(localStorage.getItem('messages')) || [];
-    messages.push({ sender: 'user', text: messageText });
+    messages.push({ sender: nickname, text: messageText });
     localStorage.setItem('messages', JSON.stringify(messages));
 
     displayMessages();
@@ -98,8 +123,8 @@
     messagesContainer.innerHTML = '';
     messages.forEach(function(message) {
       var messageElement = document.createElement('li');
-      messageElement.className = 'message ' + message.sender + '-message';
-      messageElement.textContent = message.text;
+      messageElement.className = 'message ' + message.sender.toLowerCase() + '-message';
+      messageElement.textContent = message.sender + ': ' + message.text;
       messagesContainer.appendChild(messageElement);
     });
   }
